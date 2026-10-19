@@ -1,0 +1,13 @@
+{
+  "source": "Exact held-out KAMP rows, separate files; no synthetic onset",
+  "files": [
+    {
+      "name": "normal_test.csv",
+      "sha256": "3b8342754ee094a54da87592208649634537bea90af55fc076b2cf1f0a9fcdc2"
+    },
+    {
+      "name": "anomaly_test.csv",
+      "sha256": "5b9cb4c08eeaa107c6b19955e969005134daf6103c08ba6e29c79429eb0fec3b"
+    }
+  ]
+}

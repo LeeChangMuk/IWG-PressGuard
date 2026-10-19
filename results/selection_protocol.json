@@ -1,0 +1,154 @@
+{
+  "version": "1.2.0",
+  "seed": 20260928,
+  "split": "Within each file, time-ordered segments; last 20% = test (same boundary as v1.0); rest = development",
+  "development_cv": "5 contiguous segment blocks per file, purge 1 neighbouring segment(s) on each side",
+  "features": "11 offset-invariant causal features (centered); level features excluded by design (label = file = date)",
+  "judged_rows": "n_history >= 3; warm-up rows never predict, vote or alarm and count as no-alarm",
+  "training_rows": "judged rows only; class_weight=balanced for supervised candidates",
+  "calibration": "Platt scaling fitted on development OOF raw scores of judged rows",
+  "thresholds": {
+    "unmanned": "Development OOF: max F1 subject to FPR <= 0.1% (precision-first, unattended hours)",
+    "standard": "Development OOF: max F1 subject to FPR <= 1% (default)",
+    "screening": "Development OOF: highest threshold keeping judged-row recall >= 95% (inspection candidate list)"
+  },
+  "selection_rule": "Eligible candidate with the highest development OOF row F1 at its own standard threshold (FPR <= 1%); ties -> higher OOF AP -> fewer FP -> simpler candidate",
+  "alarm_policy": {
+    "window": 3,
+    "votes_required": 2,
+    "minimum_history": 3,
+    "votes_from": "judged rows only"
+  },
+  "candidates": [
+    {
+      "name": "rule_std",
+      "label": "단일센서 한계값(현장 관행형 기준선)",
+      "family": "기준선",
+      "eligible": true,
+      "note": "채널별 창 표준편차의 정상 기준 강건 z점수 최댓값(정상 데이터만 사용)"
+    },
+    {
+      "name": "isolation_forest",
+      "label": "Isolation Forest(비지도 기준선)",
+      "family": "기준선",
+      "eligible": false,
+      "note": "정상 데이터만 학습. 라벨을 쓰지 않는 현장 초기 단계용 참조 모델(선정 대상 아님)"
+    },
+    {
+      "name": "logistic",
+      "label": "로지스틱 회귀",
+      "family": "선형",
+      "eligible": true,
+      "note": "표준화 + L2(C=0.3), 균형 가중치"
+    },
+    {
+      "name": "decision_tree",
+      "label": "결정트리(깊이 4)",
+      "family": "트리",
+      "eligible": true,
+      "note": "규칙 해석형 단일 트리, 리프 최소 20"
+    },
+    {
+      "name": "random_forest",
+      "label": "랜덤포레스트",
+      "family": "배깅 앙상블",
+      "eligible": true,
+      "note": "64그루, 깊이 8, sqrt 특징 무작위"
+    },
+    {
+      "name": "extra_trees",
+      "label": "ExtraTrees(v1.0 모델 구성)",
+      "family": "배깅 앙상블",
+      "eligible": true,
+      "note": "64그루, 깊이 6, 무작위 분할점"
+    },
+    {
+      "name": "hist_gb",
+      "label": "히스토그램 그래디언트 부스팅",
+      "family": "부스팅 앙상블",
+      "eligible": true,
+      "note": "200회, 학습률 0.05, 리프 15, L2 1.0, 조기종료 없음"
+    },
+    {
+      "name": "soft_vote",
+      "label": "이종 소프트보팅(로지스틱+ExtraTrees+부스팅)",
+      "family": "이종 앙상블",
+      "eligible": true,
+      "note": "세 모델 확률 평균"
+    }
+  ],
+  "selected": "hist_gb",
+  "test_used_for_selection": false,
+  "development_oof": {
+    "rule_std": {
+      "f1": 0.6589928057553956,
+      "ap": 0.5737903809551798,
+      "fp": 1,
+      "threshold_standard": 0.10247796035263511
+    },
+    "isolation_forest": {
+      "f1": 0.5674931129476584,
+      "ap": 0.6005101661937494,
+      "fp": 55,
+      "threshold_standard": 0.42683051027815594
+    },
+    "logistic": {
+      "f1": 0.7288343558282209,
+      "ap": 0.7983699133680997,
+      "fp": 53,
+      "threshold_standard": 0.3485262119616584
+    },
+    "decision_tree": {
+      "f1": 0.6818181818181818,
+      "ap": 0.7609684584195806,
+      "fp": 86,
+      "threshold_standard": 0.32569675189496394
+    },
+    "random_forest": {
+      "f1": 0.8397291196388262,
+      "ap": 0.940338345742433,
+      "fp": 49,
+      "threshold_standard": 0.3749272215921867
+    },
+    "extra_trees": {
+      "f1": 0.8232502965599051,
+      "ap": 0.9176100057516803,
+      "fp": 31,
+      "threshold_standard": 0.5008377549738491
+    },
+    "hist_gb": {
+      "f1": 0.8641425389755011,
+      "ap": 0.9567606574148917,
+      "fp": 45,
+      "threshold_standard": 0.35847514066645475
+    },
+    "soft_vote": {
+      "f1": 0.8574635241301908,
+      "ap": 0.9383007141621896,
+      "fp": 44,
+      "threshold_standard": 0.2555845530207857
+    }
+  },
+  "sources": [
+    {
+      "name": "press_data_normal.csv",
+      "sha256": "f2d61cb3b3108f49a3305d2966b3a31f26942ac8af8ffc9eb531b432b945b0a7",
+      "raw_rows": 20000,
+      "deduplicated_rows": 19999,
+      "removed_duplicates": 1,
+      "segments": 599,
+      "development_segments": 479,
+      "test_segments": 120
+    },
+    {
+      "name": "outlier_data.csv",
+      "sha256": "9fad8c238e63dba3257d8be32a32362548955c772171a95c0d2af61b0435ed2e",
+      "raw_rows": 600,
+      "deduplicated_rows": 600,
+      "removed_duplicates": 0,
+      "segments": 21,
+      "development_segments": 16,
+      "test_segments": 5
+    }
+  ]
+}

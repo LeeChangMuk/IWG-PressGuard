@@ -1,0 +1,15 @@
+{
+  "purpose": "Authorized source CSV copies for competition reproducibility; original bytes unchanged",
+  "files": [
+    {
+      "name": "outlier_data.csv",
+      "bytes": 38823,
+      "sha256": "9fad8c238e63dba3257d8be32a32362548955c772171a95c0d2af61b0435ed2e"
+    },
+    {
+      "name": "press_data_normal.csv",
+      "bytes": 1211960,
+      "sha256": "f2d61cb3b3108f49a3305d2966b3a31f26942ac8af8ffc9eb531b432b945b0a7"
+    }
+  ]
+}

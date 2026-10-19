@@ -1,0 +1,854 @@
+{
+  "selected_model": "hist_gb",
+  "thresholds": {
+    "unmanned": 0.6908410204420237,
+    "standard": 0.35847514066645453,
+    "screening": 0.0639129644015289
+  },
+  "calibration_test_judged": {
+    "brier_before": 0.014283223126987018,
+    "brier_after": 0.011913424961190881,
+    "ece_before": 0.012070579728156196,
+    "ece_after": 0.007145910019665582,
+    "mean_predicted_after": 0.03674085578229581,
+    "observed_rate": 0.031438631790744465,
+    "note": "Calibration fitted on development OOF only. Probabilities refer to the in-dataset anomaly share."
+  },
+  "permutation_importance_test": {
+    "base_ap_judged": 0.8469191933156099,
+    "repeats": 30,
+    "method": "global shuffle of one feature over judged test rows",
+    "rows": [
+      {
+        "feature": "AI0_Vibration_std",
+        "feature_ko": "AI0 진동 표준편차",
+        "ap_drop_mean": 0.4327916914272544,
+        "ap_drop_p2.5": 0.3844682795240372,
+        "ap_drop_p97.5": 0.462575089207909
+      },
+      {
+        "feature": "AI2_Current_diff_abs",
+        "feature_ko": "전류 변화량",
+        "ap_drop_mean": 0.1892994720428593,
+        "ap_drop_p2.5": 0.16297463420020164,
+        "ap_drop_p97.5": 0.20601068352678145
+      },
+      {
+        "feature": "AI2_Current_residual_abs",
+        "feature_ko": "전류 순간편차",
+        "ap_drop_mean": 0.06900089972736628,
+        "ap_drop_p2.5": 0.0515567374724214,
+        "ap_drop_p97.5": 0.09023849231582262
+      },
+      {
+        "feature": "AI2_Current_std",
+        "feature_ko": "전류 표준편차",
+        "ap_drop_mean": 0.04846218411282606,
+        "ap_drop_p2.5": 0.03255337703064453,
+        "ap_drop_p97.5": 0.06477825433102351
+      },
+      {
+        "feature": "AI1_Vibration_std",
+        "feature_ko": "AI1 진동 표준편차",
+        "ap_drop_mean": 0.032282649915977395,
+        "ap_drop_p2.5": 0.020362795148806706,
+        "ap_drop_p97.5": 0.041596231135502267
+      },
+      {
+        "feature": "AI0_Vibration_diff_abs",
+        "feature_ko": "AI0 진동 변화량",
+        "ap_drop_mean": 0.02144439315994539,
+        "ap_drop_p2.5": 0.01264991440011139,
+        "ap_drop_p97.5": 0.03055348421591264
+      },
+      {
+        "feature": "AI1_Vibration_diff_abs",
+        "feature_ko": "AI1 진동 변화량",
+        "ap_drop_mean": 0.010939304500181693,
+        "ap_drop_p2.5": -0.00021976401996247872,
+        "ap_drop_p97.5": 0.02254774960302721
+      },
+      {
+        "feature": "AI1_Vibration_residual_abs",
+        "feature_ko": "AI1 진동 순간편차",
+        "ap_drop_mean": 0.009918449734594877,
+        "ap_drop_p2.5": 0.007140051610929532,
+        "ap_drop_p97.5": 0.012601128808835583
+      },
+      {
+        "feature": "vibration_correlation",
+        "feature_ko": "AI0-AI1 진동 상관",
+        "ap_drop_mean": 0.006301153989397164,
+        "ap_drop_p2.5": -0.003697953101437573,
+        "ap_drop_p97.5": 0.01984450872942217
+      },
+      {
+        "feature": "AI0_Vibration_residual_abs",
+        "feature_ko": "AI0 진동 순간편차",
+        "ap_drop_mean": 0.004740948640924377,
+        "ap_drop_p2.5": 0.002846932947400616,
+        "ap_drop_p97.5": 0.006508603768399587
+      },
+      {
+        "feature": "vibration_std_log_ratio",
+        "feature_ko": "AI0/AI1 진동 SD 로그비",
+        "ap_drop_mean": 0.0021746075550860906,
+        "ap_drop_p2.5": -0.006960408147307776,
+        "ap_drop_p97.5": 0.017402013952844034
+      }
+    ]
+  },
+  "group_drop_column_development": {
+    "full_oof_f1": 0.8641425389755011,
+    "full_oof_ap": 0.9567606574148917,
+    "rows": [
+      {
+        "group": "변화량 3개",
+        "features_removed": 3,
+        "oof_f1_without": 0.8136792452830188,
+        "oof_ap_without": 0.8937992410273097,
+        "f1_drop": 0.05046329369248226,
+        "ap_drop": 0.06296141638758201
+      },
+      {
+        "group": "진동 진폭(AI0·AI1 표준편차)",
+        "features_removed": 2,
+        "oof_f1_without": 0.8344519015659956,
+        "oof_ap_without": 0.9242256324375385,
+        "f1_drop": 0.029690637409505505,
+        "ap_drop": 0.032535024977353166
+      },
+      {
+        "group": "전류 진폭(전류 표준편차)",
+        "features_removed": 1,
+        "oof_f1_without": 0.8379629629629629,
+        "oof_ap_without": 0.9333603787468112,
+        "f1_drop": 0.026179576012538175,
+        "ap_drop": 0.023400278668080476
+      },
+      {
+        "group": "순간편차 3개",
+        "features_removed": 3,
+        "oof_f1_without": 0.8568232662192393,
+        "oof_ap_without": 0.9393398791122586,
+        "f1_drop": 0.007319272756261763,
+        "ap_drop": 0.01742077830263311
+      },
+      {
+        "group": "진동 채널 관계(상관·SD 로그비)",
+        "features_removed": 2,
+        "oof_f1_without": 0.8460661345496009,
+        "oof_ap_without": 0.9416111193123162,
+        "f1_drop": 0.018076404425900194,
+        "ap_drop": 0.015149538102575466
+      }
+    ],
+    "method": "refit the selected model without a feature group; development blocked OOF"
+  },
+  "error_conditions": {
+    "load_cuts_current_rms": [
+      90.05970581044267,
+      145.39471869797387
+    ],
+    "high_vibration_cut_ai0_std": 0.10893365020381214,
+    "definition": "Cuts from development normal judged rows. Current RMS is a load proxy; no product/speed labels exist.",
+    "totals": {
+      "개발 OOF + 시험(표본 외 전체)": {
+        "fp": 90,
+        "fn": 73,
+        "normal": 18810,
+        "anomaly": 558
+      },
+      "시험만": {
+        "fp": 45,
+        "fn": 28,
+        "normal": 3851,
+        "anomaly": 125
+      }
+    },
+    "other_splits": {
+      "pooled": {
+        "by_correlation_sign": {
+          "corr<0": {
+            "normal_rows": 5363,
+            "fp": 61,
+            "anomaly_rows": 407,
+            "fn": 47
+          },
+          "corr>=0": {
+            "normal_rows": 13447,
+            "fp": 29,
+            "anomaly_rows": 151,
+            "fn": 26
+          }
+        },
+        "by_history": {
+          "3-4": {
+            "normal_rows": 1158,
+            "fp": 29,
+            "anomaly_rows": 41,
+            "fn": 6
+          },
+          "5-9": {
+            "normal_rows": 2781,
+            "fp": 22,
+            "anomaly_rows": 89,
+            "fn": 8
+          },
+          "10": {
+            "normal_rows": 14871,
+            "fp": 39,
+            "anomaly_rows": 428,
+            "fn": 59
+          }
+        }
+      },
+      "test": {
+        "by_correlation_sign": {
+          "corr<0": {
+            "normal_rows": 2240,
+            "fp": 38,
+            "anomaly_rows": 75,
+            "fn": 17
+          },
+          "corr>=0": {
+            "normal_rows": 1611,
+            "fp": 7,
+            "anomaly_rows": 50,
+            "fn": 11
+          }
+        },
+        "by_history": {
+          "3-4": {
+            "normal_rows": 237,
+            "fp": 8,
+            "anomaly_rows": 10,
+            "fn": 3
+          },
+          "5-9": {
+            "normal_rows": 571,
+            "fp": 10,
+            "anomaly_rows": 25,
+            "fn": 4
+          },
+          "10": {
+            "normal_rows": 3043,
+            "fp": 27,
+            "anomaly_rows": 90,
+            "fn": 21
+          }
+        }
+      }
+    },
+    "fp_slices_normal_rows": [
+      {
+        "rule": "AI1 진동 SD ≤ 0.0264",
+        "rows": 446,
+        "errors": 63,
+        "error_rate": 0.1412556053811659
+      },
+      {
+        "rule": "AI1 진동 SD > 0.0264 그리고 이력 표본수 ≤ 6.5",
+        "rows": 2106,
+        "errors": 19,
+        "error_rate": 0.009021842355175688
+      },
+      {
+        "rule": "AI1 진동 SD > 0.0264 그리고 이력 표본수 > 6.5",
+        "rows": 16258,
+        "errors": 8,
+        "error_rate": 0.0004920654447041457
+      }
+    ],
+    "fn_slices_anomaly_rows": [
+      {
+        "rule": "AI0 진동 SD ≤ 0.108 그리고 AI1 진동 SD > 0.0223",
+        "rows": 123,
+        "errors": 60,
+        "error_rate": 0.4878048780487805
+      },
+      {
+        "rule": "AI0 진동 SD ≤ 0.108 그리고 AI1 진동 SD ≤ 0.0223",
+        "rows": 118,
+        "errors": 11,
+        "error_rate": 0.09322033898305085
+      },
+      {
+        "rule": "AI0 진동 SD > 0.108 그리고 진동 상관 > 0.277",
+        "rows": 25,
+        "errors": 2,
+        "error_rate": 0.08
+      },
+      {
+        "rule": "AI0 진동 SD > 0.108 그리고 진동 상관 ≤ 0.277",
+        "rows": 292,
+        "errors": 0,
+        "error_rate": 0.0
+      }
+    ],
+    "overall_fp_rate_pooled": 0.004784688995215311,
+    "overall_fn_rate_pooled": 0.13082437275985664
+  },
+  "lower_vibration_still": {
+    "rule": "AI1_Vibration_std <= 0.02641 (judged rows)",
+    "share_anomalous_rows": 0.25627240143369173,
+    "share_normal_rows": 0.023710792131844762,
+    "share_normal_rows_development": 0.015977003810415134,
+    "share_normal_rows_test": 0.053752272137107246,
+    "pooled_fp_inside": 63,
+    "pooled_fp_total": 90,
+    "pooled_fn_inside": 22,
+    "pooled_fn_total": 73
+  },
+  "inspection_ranking": {
+    "rule": "segments ordered by share of judged samples >= screening threshold; tie-break mean probability",
+    "test": {
+      "segments": 124,
+      "anomalous_ranks": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "inspect_top_n_to_cover_all": 6,
+      "inspect_share_to_cover_all": 0.04838709677419355
+    },
+    "development_oof": {
+      "segments": 480,
+      "anomalous_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "inspect_top_n_to_cover_all": 16,
+      "inspect_share_to_cover_all": 0.03333333333333333
+    },
+    "test_gain_curve": [
+      {
+        "inspected_share": 0.008064516129032258,
+        "anomalous_found": 1
+      },
+      {
+        "inspected_share": 0.016129032258064516,
+        "anomalous_found": 2
+      },
+      {
+        "inspected_share": 0.024193548387096774,
+        "anomalous_found": 3
+      },
+      {
+        "inspected_share": 0.03225806451612903,
+        "anomalous_found": 4
+      },
+      {
+        "inspected_share": 0.04032258064516129,
+        "anomalous_found": 4
+      },
+      {
+        "inspected_share": 0.04838709677419355,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.056451612903225805,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.06451612903225806,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.07258064516129033,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.08064516129032258,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.08870967741935484,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.0967741935483871,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.10483870967741936,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.11290322580645161,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.12096774193548387,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.12903225806451613,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.13709677419354838,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.14516129032258066,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.1532258064516129,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.16129032258064516,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.1693548387096774,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.1774193548387097,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.18548387096774194,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.1935483870967742,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.20161290322580644,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.20967741935483872,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.21774193548387097,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.22580645161290322,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.23387096774193547,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.24193548387096775,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.25,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.25806451612903225,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.2661290322580645,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.27419354838709675,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.28225806451612906,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.2903225806451613,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.29838709677419356,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.3064516129032258,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.31451612903225806,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.3225806451612903,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.33064516129032256,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.3387096774193548,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.3467741935483871,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.3548387096774194,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.3629032258064516,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.3709677419354839,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.3790322580645161,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.3870967741935484,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.3951612903225806,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.4032258064516129,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.4112903225806452,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.41935483870967744,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.4274193548387097,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.43548387096774194,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.4435483870967742,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.45161290322580644,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.4596774193548387,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.46774193548387094,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.47580645161290325,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.4838709677419355,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.49193548387096775,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.5,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.5080645161290323,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.5161290322580645,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.5241935483870968,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.532258064516129,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.5403225806451613,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.5483870967741935,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.5564516129032258,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.5645161290322581,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.5725806451612904,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.5806451612903226,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.5887096774193549,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.5967741935483871,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.6048387096774194,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.6129032258064516,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.6209677419354839,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.6290322580645161,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.6370967741935484,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.6451612903225806,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.6532258064516129,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.6612903225806451,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.6693548387096774,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.6774193548387096,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.6854838709677419,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.6935483870967742,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.7016129032258065,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.7096774193548387,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.717741935483871,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.7258064516129032,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.7338709677419355,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.7419354838709677,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.75,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.7580645161290323,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.7661290322580645,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.7741935483870968,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.782258064516129,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.7903225806451613,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.7983870967741935,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.8064516129032258,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.8145161290322581,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.8225806451612904,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.8306451612903226,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.8387096774193549,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.8467741935483871,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.8548387096774194,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.8629032258064516,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.8709677419354839,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.8790322580645161,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.8870967741935484,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.8951612903225806,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.9032258064516129,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.9112903225806451,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.9193548387096774,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.9274193548387096,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.9354838709677419,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.9435483870967742,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.9516129032258065,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.9596774193548387,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.967741935483871,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.9758064516129032,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.9838709677419355,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 0.9919354838709677,
+        "anomalous_found": 5
+      },
+      {
+        "inspected_share": 1.0,
+        "anomalous_found": 5
+      }
+    ]
+  },
+  "decision_cost_view": {
+    "rule": "With calibrated probability p, alarm when p >= t is optimal if C_FN/C_FP = (1-t)/t",
+    "implied_cost_ratio_fn_over_fp": {
+      "unmanned": 0.4475110342465852,
+      "standard": 1.7895937167103486,
+      "screening": 14.64627786183672
+    },
+    "dataset_prior": 0.02813149688149688,
+    "prior_shift_formula": "odds_field = odds_dataset * [pi_f/(1-pi_f)] / [pi_d/(1-pi_d)]",
+    "example_field_prior_0.5pct": {
+      "unmanned": 0.27950464354438503,
+      "standard": 0.08842954379072776,
+      "screening": 0.011714313054278079
+    }
+  }
+}

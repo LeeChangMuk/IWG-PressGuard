@@ -1,0 +1,450 @@
+{
+  "model_id": "IWG-PressGuard-Light-hist_gb",
+  "explained_output": "log-odds of the boosted model before Platt calibration",
+  "method": "path-dependent TreeSHAP on the exported JSON trees; cross-checked with shap.TreeExplainer on the sklearn refit",
+  "shap_version": "0.52.0",
+  "rows": 3976,
+  "expected_value": -7.804591628739098,
+  "max_additivity_error": 4.3520742565306136e-14,
+  "max_json_vs_sklearn_difference": 0.0,
+  "mean_abs_shap": {
+    "AI2_Current_residual_abs": 0.7211127508103845,
+    "AI0_Vibration_std": 0.5941515573233492,
+    "AI2_Current_std": 0.5572305685895457,
+    "vibration_correlation": 0.5323815799497591,
+    "AI2_Current_diff_abs": 0.4119651062675856,
+    "AI1_Vibration_diff_abs": 0.40764293445251737,
+    "AI1_Vibration_std": 0.4074412947987273,
+    "AI0_Vibration_diff_abs": 0.3512976280041939,
+    "vibration_std_log_ratio": 0.3407510235391783,
+    "AI1_Vibration_residual_abs": 0.17000773425687513,
+    "AI0_Vibration_residual_abs": 0.055290787065218124
+  },
+  "interaction_main_effect_share": 0.5138609106244452,
+  "top_interactions": [
+    {
+      "pair": [
+        "AI2_Current_std",
+        "AI2_Current_residual_abs"
+      ],
+      "pair_ko": [
+        "전류 표준편차",
+        "전류 순간편차"
+      ],
+      "mean_abs_interaction_x2": 0.28096817026977816
+    },
+    {
+      "pair": [
+        "AI1_Vibration_std",
+        "vibration_correlation"
+      ],
+      "pair_ko": [
+        "AI1 진동 표준편차",
+        "AI0-AI1 진동 상관"
+      ],
+      "mean_abs_interaction_x2": 0.26407821241255974
+    },
+    {
+      "pair": [
+        "AI0_Vibration_std",
+        "vibration_correlation"
+      ],
+      "pair_ko": [
+        "AI0 진동 표준편차",
+        "AI0-AI1 진동 상관"
+      ],
+      "mean_abs_interaction_x2": 0.22945599373678327
+    },
+    {
+      "pair": [
+        "AI2_Current_std",
+        "AI2_Current_diff_abs"
+      ],
+      "pair_ko": [
+        "전류 표준편차",
+        "전류 변화량"
+      ],
+      "mean_abs_interaction_x2": 0.2264391008270525
+    },
+    {
+      "pair": [
+        "AI0_Vibration_std",
+        "AI2_Current_std"
+      ],
+      "pair_ko": [
+        "AI0 진동 표준편차",
+        "전류 표준편차"
+      ],
+      "mean_abs_interaction_x2": 0.18158106693142156
+    },
+    {
+      "pair": [
+        "AI2_Current_residual_abs",
+        "AI2_Current_diff_abs"
+      ],
+      "pair_ko": [
+        "전류 순간편차",
+        "전류 변화량"
+      ],
+      "mean_abs_interaction_x2": 0.17905934126341597
+    }
+  ],
+  "vibration_correlation": {
+    "file_level": {
+      "0": 0.36827517030956236,
+      "1": -0.38058632726294944
+    },
+    "segment_median": {
+      "0": 0.2809636277505688,
+      "1": -0.3483710866550817
+    },
+    "segment_share_negative": {
+      "0": 0.21509433962264152,
+      "1": 0.8235294117647058
+    },
+    "segments": {
+      "0": 530,
+      "1": 17
+    },
+    "window_median_full": {
+      "0": 0.2707502893870327,
+      "1": -0.31826903640893023
+    }
+  },
+  "conditional_effects": {
+    "current_std_shap_mean_flat_current": 0.9276531439708642,
+    "current_std_shap_mean_top_third_current_std": -0.3519153400519148,
+    "flat_current_definition": "current std and current residual both in their lowest third (test judged rows)",
+    "correlation_shap_mean_negative_correlation": 0.7417212102054951,
+    "correlation_shap_mean_nonnegative_correlation": -0.20960092127824856,
+    "lower_vibration_still_rows": 238,
+    "lower_vibration_still_ai1_std_shap_quartiles": [
+      2.5533426434846005,
+      3.0920256922330047,
+      3.7495428791408347
+    ]
+  },
+  "cases": [
+    {
+      "case": "A_normal_high_load_quiet",
+      "title": "정상·고부하·경보 없음",
+      "rule": "label 0, full window, current RMS >= dev-normal 2/3 quantile, below standard threshold",
+      "candidates": 259,
+      "segment_id": "N0587",
+      "timestamp": "2022-07-12 01:15:18.619",
+      "original_csv_line": 19568,
+      "label": 0,
+      "probability": 0.00011606220505056824,
+      "current_rms": 183.92157856139656,
+      "contributions": [
+        {
+          "feature": "vibration_correlation",
+          "feature_ko": "AI0-AI1 진동 상관",
+          "shap": -0.40855446493861375,
+          "value": 0.771340494105002
+        },
+        {
+          "feature": "AI2_Current_residual_abs",
+          "feature_ko": "전류 순간편차",
+          "shap": -0.39972622845981526,
+          "value": 99.5700495
+        },
+        {
+          "feature": "AI0_Vibration_std",
+          "feature_ko": "AI0 진동 표준편차",
+          "shap": -0.38417757031575167,
+          "value": 0.05029376993067829
+        },
+        {
+          "feature": "vibration_std_log_ratio",
+          "feature_ko": "AI0/AI1 진동 SD 로그비",
+          "shap": -0.3505790436687945,
+          "value": -1.2925395250416207
+        },
+        {
+          "feature": "AI1_Vibration_diff_abs",
+          "feature_ko": "AI1 진동 변화량",
+          "shap": 0.31695476238427117,
+          "value": 0.025294999999999984
+        },
+        {
+          "feature": "AI0_Vibration_diff_abs",
+          "feature_ko": "AI0 진동 변화량",
+          "shap": -0.28032517556444836,
+          "value": 0.051397
+        },
+        {
+          "feature": "AI2_Current_std",
+          "feature_ko": "전류 표준편차",
+          "shap": -0.18536228282450737,
+          "value": 165.9105059142671
+        },
+        {
+          "feature": "AI1_Vibration_std",
+          "feature_ko": "AI1 진동 표준편차",
+          "shap": -0.12846870101372143,
+          "value": 0.18317375073085662
+        },
+        {
+          "feature": "AI1_Vibration_residual_abs",
+          "feature_ko": "AI1 진동 순간편차",
+          "shap": 0.10789881377573107,
+          "value": 0.21338569999999998
+        },
+        {
+          "feature": "AI0_Vibration_residual_abs",
+          "feature_ko": "AI0 진동 순간편차",
+          "shap": -0.004059514367221804,
+          "value": 0.0916736
+        },
+        {
+          "feature": "AI2_Current_diff_abs",
+          "feature_ko": "전류 변화량",
+          "shap": 0.002113312109695639,
+          "value": 55.34304
+        }
+      ]
+    },
+    {
+      "case": "B_true_detection",
+      "title": "이상·탐지",
+      "rule": "label 1, full window, at/above standard threshold",
+      "candidates": 69,
+      "segment_id": "A0019",
+      "timestamp": "2022-07-17 10:53:36.939",
+      "original_csv_line": 576,
+      "label": 1,
+      "probability": 0.9898810210729959,
+      "current_rms": 249.59507642560382,
+      "contributions": [
+        {
+          "feature": "AI0_Vibration_std",
+          "feature_ko": "AI0 진동 표준편차",
+          "shap": 9.550217286743466,
+          "value": 0.3638057627315879
+        },
+        {
+          "feature": "vibration_std_log_ratio",
+          "feature_ko": "AI0/AI1 진동 SD 로그비",
+          "shap": 2.6566107075954815,
+          "value": 1.514029297635729
+        },
+        {
+          "feature": "AI2_Current_diff_abs",
+          "feature_ko": "전류 변화량",
+          "shap": 0.778025606847911,
+          "value": 63.18093999999999
+        },
+        {
+          "feature": "AI1_Vibration_diff_abs",
+          "feature_ko": "AI1 진동 변화량",
+          "shap": 0.7270081328612309,
+          "value": 0.018101289999999992
+        },
+        {
+          "feature": "AI2_Current_residual_abs",
+          "feature_ko": "전류 순간편차",
+          "shap": -0.4438702759239387,
+          "value": 86.188332
+        },
+        {
+          "feature": "AI0_Vibration_diff_abs",
+          "feature_ko": "AI0 진동 변화량",
+          "shap": 0.3903489795074577,
+          "value": 0.035840057
+        },
+        {
+          "feature": "vibration_correlation",
+          "feature_ko": "AI0-AI1 진동 상관",
+          "shap": -0.2640394776646018,
+          "value": 0.6152461062847138
+        },
+        {
+          "feature": "AI2_Current_std",
+          "feature_ko": "전류 표준편차",
+          "shap": 0.24880176944724,
+          "value": 64.33780410213684
+        },
+        {
+          "feature": "AI1_Vibration_std",
+          "feature_ko": "AI1 진동 표준편차",
+          "shap": 0.2054408591136432,
+          "value": 0.08004436667835678
+        },
+        {
+          "feature": "AI1_Vibration_residual_abs",
+          "feature_ko": "AI1 진동 순간편차",
+          "shap": -0.08410312049897972,
+          "value": 0.029073183700000005
+        },
+        {
+          "feature": "AI0_Vibration_residual_abs",
+          "feature_ko": "AI0 진동 순간편차",
+          "shap": 0.03606610425353687,
+          "value": 0.1267371471
+        }
+      ]
+    },
+    {
+      "case": "C_missed_anomaly",
+      "title": "이상·미탐",
+      "rule": "label 1, full window, below standard threshold",
+      "candidates": 21,
+      "segment_id": "A0017",
+      "timestamp": "2022-07-17 10:53:22.044",
+      "original_csv_line": 503,
+      "label": 1,
+      "probability": 0.09263642930724901,
+      "current_rms": 190.28359196273666,
+      "contributions": [
+        {
+          "feature": "AI1_Vibration_std",
+          "feature_ko": "AI1 진동 표준편차",
+          "shap": 3.1894684280637,
+          "value": 0.023356030241759786
+        },
+        {
+          "feature": "vibration_std_log_ratio",
+          "feature_ko": "AI0/AI1 진동 SD 로그비",
+          "shap": 1.5139651212242602,
+          "value": 0.37711795634096806
+        },
+        {
+          "feature": "AI2_Current_residual_abs",
+          "feature_ko": "전류 순간편차",
+          "shap": -0.9162285247635197,
+          "value": 75.57869589999999
+        },
+        {
+          "feature": "AI0_Vibration_diff_abs",
+          "feature_ko": "AI0 진동 변화량",
+          "shap": 0.887157994007703,
+          "value": 0.011788475999999999
+        },
+        {
+          "feature": "AI1_Vibration_diff_abs",
+          "feature_ko": "AI1 진동 변화량",
+          "shap": 0.6485387349704278,
+          "value": 0.027904235999999992
+        },
+        {
+          "feature": "AI2_Current_std",
+          "feature_ko": "전류 표준편차",
+          "shap": 0.6476856164496709,
+          "value": 60.2807868847848
+        },
+        {
+          "feature": "AI2_Current_diff_abs",
+          "feature_ko": "전류 변화량",
+          "shap": -0.5003171598388005,
+          "value": 47.683719999999994
+        },
+        {
+          "feature": "vibration_correlation",
+          "feature_ko": "AI0-AI1 진동 상관",
+          "shap": 0.47992764106160585,
+          "value": -0.36318420964724685
+        },
+        {
+          "feature": "AI0_Vibration_std",
+          "feature_ko": "AI0 진동 표준편차",
+          "shap": 0.2889601786387985,
+          "value": 0.03405533196696581
+        },
+        {
+          "feature": "AI1_Vibration_residual_abs",
+          "feature_ko": "AI1 진동 순간편차",
+          "shap": -0.18629075688161872,
+          "value": 0.008166415889999994
+        },
+        {
+          "feature": "AI0_Vibration_residual_abs",
+          "feature_ko": "AI0 진동 순간편차",
+          "shap": -0.058438356572533635,
+          "value": 0.012852528710000002
+        }
+      ]
+    },
+    {
+      "case": "D_false_alarm",
+      "title": "정상·오경보",
+      "rule": "label 0, full window, at/above standard threshold",
+      "candidates": 27,
+      "segment_id": "N0493",
+      "timestamp": "2022-07-12 01:02:44.598",
+      "original_csv_line": 16459,
+      "label": 0,
+      "probability": 0.6782590919644058,
+      "current_rms": 84.33257250203512,
+      "contributions": [
+        {
+          "feature": "AI1_Vibration_std",
+          "feature_ko": "AI1 진동 표준편차",
+          "shap": 3.9711662022653065,
+          "value": 0.021670188998022144
+        },
+        {
+          "feature": "AI2_Current_residual_abs",
+          "feature_ko": "전류 순간편차",
+          "shap": 1.6565899720574118,
+          "value": 27.696826799999997
+        },
+        {
+          "feature": "vibration_std_log_ratio",
+          "feature_ko": "AI0/AI1 진동 SD 로그비",
+          "shap": 1.6269181452119599,
+          "value": 0.7343588565974041
+        },
+        {
+          "feature": "AI2_Current_std",
+          "feature_ko": "전류 표준편차",
+          "shap": 1.1801958097230412,
+          "value": 71.8942625910457
+        },
+        {
+          "feature": "AI1_Vibration_diff_abs",
+          "feature_ko": "AI1 진동 변화량",
+          "shap": 1.0254181439810695,
+          "value": 0.013578
+        },
+        {
+          "feature": "AI0_Vibration_diff_abs",
+          "feature_ko": "AI0 진동 변화량",
+          "shap": 0.6743315635757599,
+          "value": 0.013307000000000003
+        },
+        {
+          "feature": "AI0_Vibration_std",
+          "feature_ko": "AI0 진동 표준편차",
+          "shap": -0.38351022859305006,
+          "value": 0.045164907303015686
+        },
+        {
+          "feature": "AI2_Current_diff_abs",
+          "feature_ko": "전류 변화량",
+          "shap": -0.29353174852959785,
+          "value": 23.353341
+        },
+        {
+          "feature": "vibration_correlation",
+          "feature_ko": "AI0-AI1 진동 상관",
+          "shap": 0.22604355522067465,
+          "value": -0.003077518801880009
+        },
+        {
+          "feature": "AI1_Vibration_residual_abs",
+          "feature_ko": "AI1 진동 순간편차",
+          "shap": -0.19947537306585203,
+          "value": 0.0092987
+        },
+        {
+          "feature": "AI0_Vibration_residual_abs",
+          "feature_ko": "AI0 진동 순간편차",
+          "shap": -0.04705030892202264,
+          "value": 0.0393849
+        }
+      ]
+    }
+  ],
+  "interpretation_limit": "Explains this model on this dataset; not proof of a physical fault mechanism."
+}

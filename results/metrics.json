@@ -1,0 +1,1339 @@
+{
+  "project": "IWG 프레스가드 라이트",
+  "model_version": "1.2.0",
+  "selected_model": "hist_gb",
+  "selection_protocol": {
+    "version": "1.2.0",
+    "seed": 20260928,
+    "split": "Within each file, time-ordered segments; last 20% = test (same boundary as v1.0); rest = development",
+    "development_cv": "5 contiguous segment blocks per file, purge 1 neighbouring segment(s) on each side",
+    "features": "11 offset-invariant causal features (centered); level features excluded by design (label = file = date)",
+    "judged_rows": "n_history >= 3; warm-up rows never predict, vote or alarm and count as no-alarm",
+    "training_rows": "judged rows only; class_weight=balanced for supervised candidates",
+    "calibration": "Platt scaling fitted on development OOF raw scores of judged rows",
+    "thresholds": {
+      "unmanned": "Development OOF: max F1 subject to FPR <= 0.1% (precision-first, unattended hours)",
+      "standard": "Development OOF: max F1 subject to FPR <= 1% (default)",
+      "screening": "Development OOF: highest threshold keeping judged-row recall >= 95% (inspection candidate list)"
+    },
+    "selection_rule": "Eligible candidate with the highest development OOF row F1 at its own standard threshold (FPR <= 1%); ties -> higher OOF AP -> fewer FP -> simpler candidate",
+    "alarm_policy": {
+      "window": 3,
+      "votes_required": 2,
+      "minimum_history": 3,
+      "votes_from": "judged rows only"
+    },
+    "candidates": [
+      {
+        "name": "rule_std",
+        "label": "단일센서 한계값(현장 관행형 기준선)",
+        "family": "기준선",
+        "eligible": true,
+        "note": "채널별 창 표준편차의 정상 기준 강건 z점수 최댓값(정상 데이터만 사용)"
+      },
+      {
+        "name": "isolation_forest",
+        "label": "Isolation Forest(비지도 기준선)",
+        "family": "기준선",
+        "eligible": false,
+        "note": "정상 데이터만 학습. 라벨을 쓰지 않는 현장 초기 단계용 참조 모델(선정 대상 아님)"
+      },
+      {
+        "name": "logistic",
+        "label": "로지스틱 회귀",
+        "family": "선형",
+        "eligible": true,
+        "note": "표준화 + L2(C=0.3), 균형 가중치"
+      },
+      {
+        "name": "decision_tree",
+        "label": "결정트리(깊이 4)",
+        "family": "트리",
+        "eligible": true,
+        "note": "규칙 해석형 단일 트리, 리프 최소 20"
+      },
+      {
+        "name": "random_forest",
+        "label": "랜덤포레스트",
+        "family": "배깅 앙상블",
+        "eligible": true,
+        "note": "64그루, 깊이 8, sqrt 특징 무작위"
+      },
+      {
+        "name": "extra_trees",
+        "label": "ExtraTrees(v1.0 모델 구성)",
+        "family": "배깅 앙상블",
+        "eligible": true,
+        "note": "64그루, 깊이 6, 무작위 분할점"
+      },
+      {
+        "name": "hist_gb",
+        "label": "히스토그램 그래디언트 부스팅",
+        "family": "부스팅 앙상블",
+        "eligible": true,
+        "note": "200회, 학습률 0.05, 리프 15, L2 1.0, 조기종료 없음"
+      },
+      {
+        "name": "soft_vote",
+        "label": "이종 소프트보팅(로지스틱+ExtraTrees+부스팅)",
+        "family": "이종 앙상블",
+        "eligible": true,
+        "note": "세 모델 확률 평균"
+      }
+    ],
+    "selected": "hist_gb",
+    "test_used_for_selection": false,
+    "development_oof": {
+      "rule_std": {
+        "f1": 0.6589928057553956,
+        "ap": 0.5737903809551798,
+        "fp": 1,
+        "threshold_standard": 0.10247796035263511
+      },
+      "isolation_forest": {
+        "f1": 0.5674931129476584,
+        "ap": 0.6005101661937494,
+        "fp": 55,
+        "threshold_standard": 0.42683051027815594
+      },
+      "logistic": {
+        "f1": 0.7288343558282209,
+        "ap": 0.7983699133680997,
+        "fp": 53,
+        "threshold_standard": 0.3485262119616584
+      },
+      "decision_tree": {
+        "f1": 0.6818181818181818,
+        "ap": 0.7609684584195806,
+        "fp": 86,
+        "threshold_standard": 0.32569675189496394
+      },
+      "random_forest": {
+        "f1": 0.8397291196388262,
+        "ap": 0.940338345742433,
+        "fp": 49,
+        "threshold_standard": 0.3749272215921867
+      },
+      "extra_trees": {
+        "f1": 0.8232502965599051,
+        "ap": 0.9176100057516803,
+        "fp": 31,
+        "threshold_standard": 0.5008377549738491
+      },
+      "hist_gb": {
+        "f1": 0.8641425389755011,
+        "ap": 0.9567606574148917,
+        "fp": 45,
+        "threshold_standard": 0.35847514066645475
+      },
+      "soft_vote": {
+        "f1": 0.8574635241301908,
+        "ap": 0.9383007141621896,
+        "fp": 44,
+        "threshold_standard": 0.2555845530207857
+      }
+    },
+    "sources": [
+      {
+        "name": "press_data_normal.csv",
+        "sha256": "f2d61cb3b3108f49a3305d2966b3a31f26942ac8af8ffc9eb531b432b945b0a7",
+        "raw_rows": 20000,
+        "deduplicated_rows": 19999,
+        "removed_duplicates": 1,
+        "segments": 599,
+        "development_segments": 479,
+        "test_segments": 120
+      },
+      {
+        "name": "outlier_data.csv",
+        "sha256": "9fad8c238e63dba3257d8be32a32362548955c772171a95c0d2af61b0435ed2e",
+        "raw_rows": 600,
+        "deduplicated_rows": 600,
+        "removed_duplicates": 0,
+        "segments": 21,
+        "development_segments": 16,
+        "test_segments": 5
+      }
+    ]
+  },
+  "data": {
+    "sources": [
+      {
+        "name": "press_data_normal.csv",
+        "sha256": "f2d61cb3b3108f49a3305d2966b3a31f26942ac8af8ffc9eb531b432b945b0a7",
+        "raw_rows": 20000,
+        "deduplicated_rows": 19999,
+        "removed_duplicates": 1,
+        "segments": 599,
+        "development_segments": 479,
+        "test_segments": 120
+      },
+      {
+        "name": "outlier_data.csv",
+        "sha256": "9fad8c238e63dba3257d8be32a32362548955c772171a95c0d2af61b0435ed2e",
+        "raw_rows": 600,
+        "deduplicated_rows": 600,
+        "removed_duplicates": 0,
+        "segments": 21,
+        "development_segments": 16,
+        "test_segments": 5
+      }
+    ],
+    "rows": 20599,
+    "judged_rows": 19368,
+    "split_rows": {
+      "development": {
+        "0": 15909,
+        "1": 465
+      },
+      "test": {
+        "0": 4090,
+        "1": 135
+      }
+    },
+    "split_judged_rows": {
+      "development": {
+        "0": 14959,
+        "1": 433
+      },
+      "test": {
+        "0": 3851,
+        "1": 125
+      }
+    },
+    "split_segments": {
+      "development": {
+        "0": 479,
+        "1": 16
+      },
+      "test": {
+        "0": 120,
+        "1": 5
+      }
+    },
+    "dev_fold_segments": {
+      "0": {
+        "anomalous": 3,
+        "normal": 96,
+        "purged": [
+          "A0004",
+          "N0097"
+        ]
+      },
+      "1": {
+        "anomalous": 3,
+        "normal": 96,
+        "purged": [
+          "A0003",
+          "A0007",
+          "N0096",
+          "N0193"
+        ]
+      },
+      "2": {
+        "anomalous": 4,
+        "normal": 95,
+        "purged": [
+          "A0006",
+          "A0011",
+          "N0192",
+          "N0288"
+        ]
+      },
+      "3": {
+        "anomalous": 3,
+        "normal": 96,
+        "purged": [
+          "A0010",
+          "A0014",
+          "N0287",
+          "N0384"
+        ]
+      },
+      "4": {
+        "anomalous": 3,
+        "normal": 96,
+        "purged": [
+          "A0013",
+          "N0383"
+        ]
+      }
+    },
+    "selected_feature_names": [
+      "AI0_Vibration_std",
+      "AI0_Vibration_residual_abs",
+      "AI0_Vibration_diff_abs",
+      "AI1_Vibration_std",
+      "AI1_Vibration_residual_abs",
+      "AI1_Vibration_diff_abs",
+      "AI2_Current_std",
+      "AI2_Current_residual_abs",
+      "AI2_Current_diff_abs",
+      "vibration_correlation",
+      "vibration_std_log_ratio"
+    ]
+  },
+  "development_oof": {
+    "rule_std": {
+      "name": "rule_std",
+      "calibration": {
+        "method": "Platt logistic on out-of-fold development scores",
+        "coef": 0.7384623929842477,
+        "intercept": -4.643098339037293
+      },
+      "threshold_standard": 0.10247796035263511,
+      "row": {
+        "rows": 16374,
+        "judged_rows": 15392,
+        "positive_rows": 465,
+        "threshold": 0.10247796035263511,
+        "tp": 229,
+        "fp": 1,
+        "fn": 236,
+        "tn": 15908,
+        "precision": 0.9956521739130435,
+        "recall": 0.4924731182795699,
+        "f1": 0.6589928057553956,
+        "false_positive_rate": 6.285750204286881e-05,
+        "ap_judged": 0.5737903809551798,
+        "roc_auc_judged": 0.6771504931030112,
+        "brier_judged": 0.01425565865663806
+      },
+      "f1": 0.6589928057553956,
+      "ap": 0.5737903809551798,
+      "fp": 1,
+      "fold_f1": [
+        0.7904191616766467,
+        0.463768115942029,
+        0.6483516483516484,
+        0.5671641791044776,
+        0.6993006993006993
+      ],
+      "fold_ap": [
+        0.7229664224728954,
+        0.35657781972916924,
+        0.6184074663627479,
+        0.46176451995870993,
+        0.5873488635259095
+      ],
+      "persistent": {
+        "tp": 219,
+        "fp": 0,
+        "fn": 246,
+        "tn": 15909,
+        "precision": 1.0,
+        "recall": 0.47096774193548385,
+        "f1": 0.6403508771929824,
+        "normal_alarm_events": 0,
+        "normal_observed_seconds": 1590.9,
+        "anomalous_segments_detected": 14,
+        "anomalous_segments_total": 16,
+        "normal_segments_with_alarm": 0,
+        "normal_segments_total": 479,
+        "normal_alarm_events_per_observed_hour": 0.0
+      },
+      "seconds": 0.06621905099996184
+    },
+    "isolation_forest": {
+      "name": "isolation_forest",
+      "calibration": {
+        "method": "Platt logistic on out-of-fold development scores",
+        "coef": 33.84275072193514,
+        "intercept": -21.047148672503948
+      },
+      "threshold_standard": 0.42683051027815594,
+      "row": {
+        "rows": 16374,
+        "judged_rows": 15392,
+        "positive_rows": 465,
+        "threshold": 0.42683051027815594,
+        "tp": 206,
+        "fp": 55,
+        "fn": 259,
+        "tn": 15854,
+        "precision": 0.789272030651341,
+        "recall": 0.443010752688172,
+        "f1": 0.5674931129476584,
+        "false_positive_rate": 0.003457162612357785,
+        "ap_judged": 0.6005101661937494,
+        "roc_auc_judged": 0.9335529430944967,
+        "brier_judged": 0.016044482821274134
+      },
+      "f1": 0.5674931129476584,
+      "ap": 0.6005101661937494,
+      "fp": 55,
+      "fold_f1": [
+        0.6967741935483871,
+        0.4050632911392405,
+        0.5925925925925926,
+        0.43356643356643354,
+        0.6125
+      ],
+      "fold_ap": [
+        0.8237469860388706,
+        0.4105520558165197,
+        0.6284555900049408,
+        0.5051788025411229,
+        0.5934476460113511
+      ],
+      "persistent": {
+        "tp": 191,
+        "fp": 2,
+        "fn": 274,
+        "tn": 15907,
+        "precision": 0.9896373056994818,
+        "recall": 0.410752688172043,
+        "f1": 0.5805471124620061,
+        "normal_alarm_events": 1,
+        "normal_observed_seconds": 1590.9,
+        "anomalous_segments_detected": 14,
+        "anomalous_segments_total": 16,
+        "normal_segments_with_alarm": 1,
+        "normal_segments_total": 479,
+        "normal_alarm_events_per_observed_hour": 2.262870073543277
+      },
+      "seconds": 1.3541126710000526
+    },
+    "logistic": {
+      "name": "logistic",
+      "calibration": {
+        "method": "Platt logistic on out-of-fold development scores",
+        "coef": 0.8671509374875754,
+        "intercept": -3.417322035922338
+      },
+      "threshold_standard": 0.3485262119616584,
+      "row": {
+        "rows": 16374,
+        "judged_rows": 15392,
+        "positive_rows": 465,
+        "threshold": 0.3485262119616584,
+        "tp": 297,
+        "fp": 53,
+        "fn": 168,
+        "tn": 15856,
+        "precision": 0.8485714285714285,
+        "recall": 0.6387096774193548,
+        "f1": 0.7288343558282209,
+        "false_positive_rate": 0.0033314476082720473,
+        "ap_judged": 0.7983699133680997,
+        "roc_auc_judged": 0.9728202429211052,
+        "brier_judged": 0.01046001635917232
+      },
+      "f1": 0.7288343558282209,
+      "ap": 0.7983699133680997,
+      "fp": 53,
+      "fold_f1": [
+        0.7853403141361257,
+        0.4666666666666667,
+        0.75,
+        0.7411764705882353,
+        0.7692307692307693
+      ],
+      "fold_ap": [
+        0.842066128590683,
+        0.4908092420878051,
+        0.8351393424398554,
+        0.852748863173419,
+        0.8438596186814729
+      ],
+      "persistent": {
+        "tp": 288,
+        "fp": 19,
+        "fn": 177,
+        "tn": 15890,
+        "precision": 0.9381107491856677,
+        "recall": 0.6193548387096774,
+        "f1": 0.7461139896373057,
+        "normal_alarm_events": 8,
+        "normal_observed_seconds": 1590.9,
+        "anomalous_segments_detected": 14,
+        "anomalous_segments_total": 16,
+        "normal_segments_with_alarm": 8,
+        "normal_segments_total": 479,
+        "normal_alarm_events_per_observed_hour": 18.102960588346217
+      },
+      "seconds": 0.1374870729999884
+    },
+    "decision_tree": {
+      "name": "decision_tree",
+      "calibration": {
+        "method": "Platt logistic on out-of-fold development scores",
+        "coef": 0.7057234510332704,
+        "intercept": -3.020716223041782
+      },
+      "threshold_standard": 0.32569675189496394,
+      "row": {
+        "rows": 16374,
+        "judged_rows": 15392,
+        "positive_rows": 465,
+        "threshold": 0.32569675189496394,
+        "tp": 285,
+        "fp": 86,
+        "fn": 180,
+        "tn": 15823,
+        "precision": 0.7681940700808625,
+        "recall": 0.6129032258064516,
+        "f1": 0.6818181818181818,
+        "false_positive_rate": 0.005405745175686719,
+        "ap_judged": 0.7609684584195806,
+        "roc_auc_judged": 0.9276031931467181,
+        "brier_judged": 0.011057892947286546
+      },
+      "f1": 0.6818181818181818,
+      "ap": 0.7609684584195806,
+      "fp": 86,
+      "fold_f1": [
+        0.6927374301675978,
+        0.625,
+        0.6635514018691588,
+        0.6838709677419355,
+        0.71875
+      ],
+      "fold_ap": [
+        0.7346322398133828,
+        0.6305120585233277,
+        0.7828211233658988,
+        0.7467194497304492,
+        0.7873771278534476
+      ],
+      "persistent": {
+        "tp": 273,
+        "fp": 61,
+        "fn": 192,
+        "tn": 15848,
+        "precision": 0.8173652694610778,
+        "recall": 0.5870967741935483,
+        "f1": 0.6833541927409261,
+        "normal_alarm_events": 17,
+        "normal_observed_seconds": 1590.9,
+        "anomalous_segments_detected": 13,
+        "anomalous_segments_total": 16,
+        "normal_segments_with_alarm": 16,
+        "normal_segments_total": 479,
+        "normal_alarm_events_per_observed_hour": 38.46879125023572
+      },
+      "seconds": 0.3639268100000663
+    },
+    "random_forest": {
+      "name": "random_forest",
+      "calibration": {
+        "method": "Platt logistic on out-of-fold development scores",
+        "coef": 2.096021671849322,
+        "intercept": -0.6439915456541343
+      },
+      "threshold_standard": 0.3749272215921867,
+      "row": {
+        "rows": 16374,
+        "judged_rows": 15392,
+        "positive_rows": 465,
+        "threshold": 0.3749272215921867,
+        "tp": 372,
+        "fp": 49,
+        "fn": 93,
+        "tn": 15860,
+        "precision": 0.8836104513064132,
+        "recall": 0.8,
+        "f1": 0.8397291196388262,
+        "false_positive_rate": 0.003080017600100572,
+        "ap_judged": 0.940338345742433,
+        "roc_auc_judged": 0.9955884035300799,
+        "brier_judged": 0.005462057834381923
+      },
+      "f1": 0.8397291196388262,
+      "ap": 0.940338345742433,
+      "fp": 49,
+      "fold_f1": [
+        0.8465608465608465,
+        0.7184466019417476,
+        0.9045643153526971,
+        0.8540540540540541,
+        0.7976190476190477
+      ],
+      "fold_ap": [
+        0.9432097880305722,
+        0.8544173120055883,
+        0.9827921898730316,
+        0.9446402446054379,
+        0.906911689262023
+      ],
+      "persistent": {
+        "tp": 361,
+        "fp": 28,
+        "fn": 104,
+        "tn": 15881,
+        "precision": 0.9280205655526992,
+        "recall": 0.7763440860215054,
+        "f1": 0.8454332552693209,
+        "normal_alarm_events": 10,
+        "normal_observed_seconds": 1590.9,
+        "anomalous_segments_detected": 15,
+        "anomalous_segments_total": 16,
+        "normal_segments_with_alarm": 10,
+        "normal_segments_total": 479,
+        "normal_alarm_events_per_observed_hour": 22.628700735432773
+      },
+      "seconds": 6.165404631000001
+    },
+    "extra_trees": {
+      "name": "extra_trees",
+      "calibration": {
+        "method": "Platt logistic on out-of-fold development scores",
+        "coef": 3.0129802347190124,
+        "intercept": -2.663714126939834
+      },
+      "threshold_standard": 0.5008377549738491,
+      "row": {
+        "rows": 16374,
+        "judged_rows": 15392,
+        "positive_rows": 465,
+        "threshold": 0.5008377549738491,
+        "tp": 347,
+        "fp": 31,
+        "fn": 118,
+        "tn": 15878,
+        "precision": 0.917989417989418,
+        "recall": 0.7462365591397849,
+        "f1": 0.8232502965599051,
+        "false_positive_rate": 0.0019485825633289333,
+        "ap_judged": 0.9176100057516803,
+        "roc_auc_judged": 0.9931896992657528,
+        "brier_judged": 0.006271790879557956
+      },
+      "f1": 0.8232502965599051,
+      "ap": 0.9176100057516803,
+      "fp": 31,
+      "fold_f1": [
+        0.8260869565217391,
+        0.6588235294117647,
+        0.8744588744588745,
+        0.8743169398907104,
+        0.775
+      ],
+      "fold_ap": [
+        0.9120969588874325,
+        0.7843327529820111,
+        0.9584659401537048,
+        0.9503418918620055,
+        0.8895324887476148
+      ],
+      "persistent": {
+        "tp": 340,
+        "fp": 10,
+        "fn": 125,
+        "tn": 15899,
+        "precision": 0.9714285714285714,
+        "recall": 0.7311827956989247,
+        "f1": 0.8343558282208589,
+        "normal_alarm_events": 5,
+        "normal_observed_seconds": 1590.9,
+        "anomalous_segments_detected": 15,
+        "anomalous_segments_total": 16,
+        "normal_segments_with_alarm": 5,
+        "normal_segments_total": 479,
+        "normal_alarm_events_per_observed_hour": 11.314350367716386
+      },
+      "seconds": 1.6593711560000202
+    },
+    "hist_gb": {
+      "name": "hist_gb",
+      "calibration": {
+        "method": "Platt logistic on out-of-fold development scores",
+        "coef": 0.8794471494802019,
+        "intercept": -0.6899183126807623
+      },
+      "threshold_standard": 0.35847514066645475,
+      "row": {
+        "rows": 16374,
+        "judged_rows": 15392,
+        "positive_rows": 465,
+        "threshold": 0.35847514066645475,
+        "tp": 388,
+        "fp": 45,
+        "fn": 77,
+        "tn": 15864,
+        "precision": 0.8960739030023095,
+        "recall": 0.8344086021505376,
+        "f1": 0.8641425389755011,
+        "false_positive_rate": 0.002828587591929097,
+        "ap_judged": 0.9567606574148917,
+        "roc_auc_judged": 0.9952706759522989,
+        "brier_judged": 0.00441101301102247
+      },
+      "f1": 0.8641425389755011,
+      "ap": 0.9567606574148917,
+      "fp": 45,
+      "fold_f1": [
+        0.8677248677248677,
+        0.780952380952381,
+        0.9282700421940928,
+        0.8842105263157894,
+        0.8022598870056498
+      ],
+      "fold_ap": [
+        0.9569098972086306,
+        0.8895089410972785,
+        0.9932555200201753,
+        0.9662610080623093,
+        0.9212773797987795
+      ],
+      "persistent": {
+        "tp": 383,
+        "fp": 14,
+        "fn": 82,
+        "tn": 15895,
+        "precision": 0.964735516372796,
+        "recall": 0.8236559139784946,
+        "f1": 0.888631090487239,
+        "normal_alarm_events": 6,
+        "normal_observed_seconds": 1590.9,
+        "anomalous_segments_detected": 15,
+        "anomalous_segments_total": 16,
+        "normal_segments_with_alarm": 6,
+        "normal_segments_total": 479,
+        "normal_alarm_events_per_observed_hour": 13.577220441259664
+      },
+      "seconds": 1.8756779640000332
+    },
+    "soft_vote": {
+      "name": "soft_vote",
+      "calibration": {
+        "method": "Platt logistic on out-of-fold development scores",
+        "coef": 2.554144900737832,
+        "intercept": -2.155392327327157
+      },
+      "threshold_standard": 0.2555845530207857,
+      "row": {
+        "rows": 16374,
+        "judged_rows": 15392,
+        "positive_rows": 465,
+        "threshold": 0.2555845530207857,
+        "tp": 382,
+        "fp": 44,
+        "fn": 83,
+        "tn": 15865,
+        "precision": 0.8967136150234741,
+        "recall": 0.821505376344086,
+        "f1": 0.8574635241301908,
+        "false_positive_rate": 0.002765730089886228,
+        "ap_judged": 0.9383007141621896,
+        "roc_auc_judged": 0.9947914600137991,
+        "brier_judged": 0.0049811380389694635
+      },
+      "f1": 0.8574635241301908,
+      "ap": 0.9383007141621896,
+      "fp": 44,
+      "fold_f1": [
+        0.8691099476439791,
+        0.6597938144329897,
+        0.9159663865546218,
+        0.8994708994708994,
+        0.8295454545454546
+      ],
+      "fold_ap": [
+        0.922869766091989,
+        0.7845761506369647,
+        0.978793584675805,
+        0.9660792026577094,
+        0.9310888270993107
+      ],
+      "persistent": {
+        "tp": 376,
+        "fp": 7,
+        "fn": 89,
+        "tn": 15902,
+        "precision": 0.9817232375979112,
+        "recall": 0.8086021505376344,
+        "f1": 0.8867924528301887,
+        "normal_alarm_events": 2,
+        "normal_observed_seconds": 1590.9,
+        "anomalous_segments_detected": 15,
+        "anomalous_segments_total": 16,
+        "normal_segments_with_alarm": 2,
+        "normal_segments_total": 479,
+        "normal_alarm_events_per_observed_hour": 4.525740147086554
+      },
+      "seconds": 3.4939962629999854
+    }
+  },
+  "thresholds": {
+    "unmanned": 0.6908410204420239,
+    "standard": 0.35847514066645475,
+    "screening": 0.0639129644015289
+  },
+  "development_oof_selected_modes": {
+    "unmanned": {
+      "rows": 16374,
+      "judged_rows": 15392,
+      "positive_rows": 465,
+      "threshold": 0.6908410204420239,
+      "tp": 352,
+      "fp": 14,
+      "fn": 113,
+      "tn": 15895,
+      "precision": 0.9617486338797814,
+      "recall": 0.7569892473118279,
+      "f1": 0.8471720818291215,
+      "false_positive_rate": 0.0008800050286001635,
+      "ap_judged": 0.9567606574148917,
+      "roc_auc_judged": 0.9952706759522989,
+      "brier_judged": 0.00441101301102247
+    },
+    "standard": {
+      "rows": 16374,
+      "judged_rows": 15392,
+      "positive_rows": 465,
+      "threshold": 0.35847514066645475,
+      "tp": 388,
+      "fp": 45,
+      "fn": 77,
+      "tn": 15864,
+      "precision": 0.8960739030023095,
+      "recall": 0.8344086021505376,
+      "f1": 0.8641425389755011,
+      "false_positive_rate": 0.002828587591929097,
+      "ap_judged": 0.9567606574148917,
+      "roc_auc_judged": 0.9952706759522989,
+      "brier_judged": 0.00441101301102247
+    },
+    "screening": {
+      "rows": 16374,
+      "judged_rows": 15392,
+      "positive_rows": 465,
+      "threshold": 0.0639129644015289,
+      "tp": 412,
+      "fp": 179,
+      "fn": 53,
+      "tn": 15730,
+      "precision": 0.6971235194585449,
+      "recall": 0.886021505376344,
+      "f1": 0.7803030303030303,
+      "false_positive_rate": 0.011251492865673517,
+      "ap_judged": 0.9567606574148917,
+      "roc_auc_judged": 0.9952706759522989,
+      "brier_judged": 0.00441101301102247
+    }
+  },
+  "test": {
+    "rows": {
+      "unmanned": {
+        "rows": 4225,
+        "judged_rows": 3976,
+        "positive_rows": 135,
+        "threshold": 0.6908410204420239,
+        "tp": 89,
+        "fp": 17,
+        "fn": 46,
+        "tn": 4073,
+        "precision": 0.839622641509434,
+        "recall": 0.6592592592592592,
+        "f1": 0.7385892116182573,
+        "false_positive_rate": 0.004156479217603912,
+        "ap_judged": 0.8469191933156099,
+        "roc_auc_judged": 0.9813326408725007,
+        "brier_judged": 0.011913424961190881
+      },
+      "standard": {
+        "rows": 4225,
+        "judged_rows": 3976,
+        "positive_rows": 135,
+        "threshold": 0.35847514066645475,
+        "tp": 97,
+        "fp": 45,
+        "fn": 38,
+        "tn": 4045,
+        "precision": 0.6830985915492958,
+        "recall": 0.7185185185185186,
+        "f1": 0.7003610108303249,
+        "false_positive_rate": 0.011002444987775062,
+        "ap_judged": 0.8469191933156099,
+        "roc_auc_judged": 0.9813326408725007,
+        "brier_judged": 0.011913424961190881
+      },
+      "screening": {
+        "rows": 4225,
+        "judged_rows": 3976,
+        "positive_rows": 135,
+        "threshold": 0.0639129644015289,
+        "tp": 110,
+        "fp": 134,
+        "fn": 25,
+        "tn": 3956,
+        "precision": 0.45081967213114754,
+        "recall": 0.8148148148148148,
+        "f1": 0.5804749340369393,
+        "false_positive_rate": 0.03276283618581907,
+        "ap_judged": 0.8469191933156099,
+        "roc_auc_judged": 0.9813326408725007,
+        "brier_judged": 0.011913424961190881
+      }
+    },
+    "persistent": {
+      "unmanned": {
+        "tp": 87,
+        "fp": 7,
+        "fn": 48,
+        "tn": 4083,
+        "precision": 0.925531914893617,
+        "recall": 0.6444444444444445,
+        "f1": 0.759825327510917,
+        "normal_alarm_events": 3,
+        "normal_observed_seconds": 409.0,
+        "anomalous_segments_detected": 5,
+        "anomalous_segments_total": 5,
+        "normal_segments_with_alarm": 3,
+        "normal_segments_total": 120,
+        "normal_alarm_events_per_observed_hour": 26.405867970660147
+      },
+      "standard": {
+        "tp": 99,
+        "fp": 24,
+        "fn": 36,
+        "tn": 4066,
+        "precision": 0.8048780487804879,
+        "recall": 0.7333333333333333,
+        "f1": 0.7674418604651163,
+        "normal_alarm_events": 10,
+        "normal_observed_seconds": 409.0,
+        "anomalous_segments_detected": 5,
+        "anomalous_segments_total": 5,
+        "normal_segments_with_alarm": 9,
+        "normal_segments_total": 120,
+        "normal_alarm_events_per_observed_hour": 88.0195599022005
+      },
+      "screening": {
+        "tp": 106,
+        "fp": 81,
+        "fn": 29,
+        "tn": 4009,
+        "precision": 0.5668449197860963,
+        "recall": 0.7851851851851852,
+        "f1": 0.6583850931677019,
+        "normal_alarm_events": 24,
+        "normal_observed_seconds": 409.0,
+        "anomalous_segments_detected": 5,
+        "anomalous_segments_total": 5,
+        "normal_segments_with_alarm": 22,
+        "normal_segments_total": 120,
+        "normal_alarm_events_per_observed_hour": 211.24694376528117
+      }
+    },
+    "segment_bootstrap_standard": {
+      "method": "label-stratified segment bootstrap, conditional on the two source recordings",
+      "iterations": 1000,
+      "anomalous_segments": 5,
+      "normal_segments": 120,
+      "bounds95": {
+        "f1": [
+          0.5367158503194402,
+          0.795752543257108
+        ],
+        "precision": [
+          0.4766098700706633,
+          0.8108346581875994
+        ],
+        "recall": [
+          0.5652173913043478,
+          0.8405797101449275
+        ],
+        "ap_judged": [
+          0.7047229686659929,
+          0.9430833710968467
+        ]
+      }
+    },
+    "anomalous_segment_detail": [
+      {
+        "segment_id": "A0017",
+        "label": 1,
+        "rows": 50,
+        "judged_rows": 48,
+        "mean_score": 0.633498946017664,
+        "alarm_rows": 34,
+        "detected": true,
+        "observed_start_to_first_alarm_s": 0.3
+      },
+      {
+        "segment_id": "A0018",
+        "label": 1,
+        "rows": 36,
+        "judged_rows": 34,
+        "mean_score": 0.9171800619024819,
+        "alarm_rows": 33,
+        "detected": true,
+        "observed_start_to_first_alarm_s": 0.3
+      },
+      {
+        "segment_id": "A0019",
+        "label": 1,
+        "rows": 24,
+        "judged_rows": 22,
+        "mean_score": 0.8683031713281202,
+        "alarm_rows": 19,
+        "detected": true,
+        "observed_start_to_first_alarm_s": 0.5
+      },
+      {
+        "segment_id": "A0020",
+        "label": 1,
+        "rows": 10,
+        "judged_rows": 8,
+        "mean_score": 0.37915759618204214,
+        "alarm_rows": 2,
+        "detected": true,
+        "observed_start_to_first_alarm_s": 0.8
+      },
+      {
+        "segment_id": "A0021",
+        "label": 1,
+        "rows": 15,
+        "judged_rows": 13,
+        "mean_score": 0.7356875357248046,
+        "alarm_rows": 11,
+        "detected": true,
+        "observed_start_to_first_alarm_s": 0.4
+      }
+    ]
+  },
+  "candidates_test_report_only": {
+    "rule_std": {
+      "row": {
+        "rows": 4225,
+        "judged_rows": 3976,
+        "positive_rows": 135,
+        "threshold": 0.10247796035263511,
+        "tp": 51,
+        "fp": 0,
+        "fn": 84,
+        "tn": 4090,
+        "precision": 1.0,
+        "recall": 0.37777777777777777,
+        "f1": 0.5483870967741935,
+        "false_positive_rate": 0.0,
+        "ap_judged": 0.4894655487377079,
+        "roc_auc_judged": 0.6458374448195274,
+        "brier_judged": 0.019330118627178844
+      },
+      "persistent": {
+        "tp": 49,
+        "fp": 0,
+        "fn": 86,
+        "tn": 4090,
+        "precision": 1.0,
+        "recall": 0.362962962962963,
+        "f1": 0.532608695652174,
+        "normal_alarm_events": 0,
+        "normal_observed_seconds": 409.0,
+        "anomalous_segments_detected": 3,
+        "anomalous_segments_total": 5,
+        "normal_segments_with_alarm": 0,
+        "normal_segments_total": 120,
+        "normal_alarm_events_per_observed_hour": 0.0
+      }
+    },
+    "isolation_forest": {
+      "row": {
+        "rows": 4225,
+        "judged_rows": 3976,
+        "positive_rows": 135,
+        "threshold": 0.42683051027815594,
+        "tp": 34,
+        "fp": 0,
+        "fn": 101,
+        "tn": 4090,
+        "precision": 1.0,
+        "recall": 0.2518518518518518,
+        "f1": 0.40236686390532544,
+        "false_positive_rate": 0.0,
+        "ap_judged": 0.5754016079646805,
+        "roc_auc_judged": 0.9406159439106725,
+        "brier_judged": 0.0211411716035423
+      },
+      "persistent": {
+        "tp": 34,
+        "fp": 0,
+        "fn": 101,
+        "tn": 4090,
+        "precision": 1.0,
+        "recall": 0.2518518518518518,
+        "f1": 0.40236686390532544,
+        "normal_alarm_events": 0,
+        "normal_observed_seconds": 409.0,
+        "anomalous_segments_detected": 3,
+        "anomalous_segments_total": 5,
+        "normal_segments_with_alarm": 0,
+        "normal_segments_total": 120,
+        "normal_alarm_events_per_observed_hour": 0.0
+      }
+    },
+    "logistic": {
+      "row": {
+        "rows": 4225,
+        "judged_rows": 3976,
+        "positive_rows": 135,
+        "threshold": 0.3485262119616584,
+        "tp": 64,
+        "fp": 14,
+        "fn": 71,
+        "tn": 4076,
+        "precision": 0.8205128205128205,
+        "recall": 0.4740740740740741,
+        "f1": 0.6009389671361502,
+        "false_positive_rate": 0.0034229828850855745,
+        "ap_judged": 0.6164792631189899,
+        "roc_auc_judged": 0.887761101012724,
+        "brier_judged": 0.017266953405719446
+      },
+      "persistent": {
+        "tp": 63,
+        "fp": 4,
+        "fn": 72,
+        "tn": 4086,
+        "precision": 0.9402985074626866,
+        "recall": 0.4666666666666667,
+        "f1": 0.6237623762376238,
+        "normal_alarm_events": 2,
+        "normal_observed_seconds": 409.0,
+        "anomalous_segments_detected": 3,
+        "anomalous_segments_total": 5,
+        "normal_segments_with_alarm": 2,
+        "normal_segments_total": 120,
+        "normal_alarm_events_per_observed_hour": 17.6039119804401
+      }
+    },
+    "decision_tree": {
+      "row": {
+        "rows": 4225,
+        "judged_rows": 3976,
+        "positive_rows": 135,
+        "threshold": 0.32569675189496394,
+        "tp": 57,
+        "fp": 27,
+        "fn": 78,
+        "tn": 4063,
+        "precision": 0.6785714285714286,
+        "recall": 0.4222222222222222,
+        "f1": 0.5205479452054794,
+        "false_positive_rate": 0.006601466992665036,
+        "ap_judged": 0.49217082633962084,
+        "roc_auc_judged": 0.7994380680342769,
+        "brier_judged": 0.021030209457124683
+      },
+      "persistent": {
+        "tp": 51,
+        "fp": 12,
+        "fn": 84,
+        "tn": 4078,
+        "precision": 0.8095238095238095,
+        "recall": 0.37777777777777777,
+        "f1": 0.5151515151515151,
+        "normal_alarm_events": 4,
+        "normal_observed_seconds": 409.0,
+        "anomalous_segments_detected": 4,
+        "anomalous_segments_total": 5,
+        "normal_segments_with_alarm": 2,
+        "normal_segments_total": 120,
+        "normal_alarm_events_per_observed_hour": 35.2078239608802
+      }
+    },
+    "random_forest": {
+      "row": {
+        "rows": 4225,
+        "judged_rows": 3976,
+        "positive_rows": 135,
+        "threshold": 0.3749272215921867,
+        "tp": 96,
+        "fp": 56,
+        "fn": 39,
+        "tn": 4034,
+        "precision": 0.631578947368421,
+        "recall": 0.7111111111111111,
+        "f1": 0.6689895470383276,
+        "false_positive_rate": 0.013691931540342298,
+        "ap_judged": 0.762735065975547,
+        "roc_auc_judged": 0.9676800830952998,
+        "brier_judged": 0.014869762529255627
+      },
+      "persistent": {
+        "tp": 93,
+        "fp": 33,
+        "fn": 42,
+        "tn": 4057,
+        "precision": 0.7380952380952381,
+        "recall": 0.6888888888888889,
+        "f1": 0.7126436781609196,
+        "normal_alarm_events": 10,
+        "normal_observed_seconds": 409.0,
+        "anomalous_segments_detected": 4,
+        "anomalous_segments_total": 5,
+        "normal_segments_with_alarm": 9,
+        "normal_segments_total": 120,
+        "normal_alarm_events_per_observed_hour": 88.0195599022005
+      }
+    },
+    "extra_trees": {
+      "row": {
+        "rows": 4225,
+        "judged_rows": 3976,
+        "positive_rows": 135,
+        "threshold": 0.5008377549738491,
+        "tp": 75,
+        "fp": 11,
+        "fn": 60,
+        "tn": 4079,
+        "precision": 0.872093023255814,
+        "recall": 0.5555555555555556,
+        "f1": 0.6787330316742082,
+        "false_positive_rate": 0.0026894865525672372,
+        "ap_judged": 0.7375039948805089,
+        "roc_auc_judged": 0.9363261490521942,
+        "brier_judged": 0.014011340179367534
+      },
+      "persistent": {
+        "tp": 72,
+        "fp": 7,
+        "fn": 63,
+        "tn": 4083,
+        "precision": 0.9113924050632911,
+        "recall": 0.5333333333333333,
+        "f1": 0.6728971962616822,
+        "normal_alarm_events": 3,
+        "normal_observed_seconds": 409.0,
+        "anomalous_segments_detected": 4,
+        "anomalous_segments_total": 5,
+        "normal_segments_with_alarm": 3,
+        "normal_segments_total": 120,
+        "normal_alarm_events_per_observed_hour": 26.405867970660147
+      }
+    },
+    "hist_gb": {
+      "row": {
+        "rows": 4225,
+        "judged_rows": 3976,
+        "positive_rows": 135,
+        "threshold": 0.35847514066645475,
+        "tp": 97,
+        "fp": 45,
+        "fn": 38,
+        "tn": 4045,
+        "precision": 0.6830985915492958,
+        "recall": 0.7185185185185186,
+        "f1": 0.7003610108303249,
+        "false_positive_rate": 0.011002444987775062,
+        "ap_judged": 0.8469191933156099,
+        "roc_auc_judged": 0.9813326408725007,
+        "brier_judged": 0.011913424961190881
+      },
+      "persistent": {
+        "tp": 99,
+        "fp": 24,
+        "fn": 36,
+        "tn": 4066,
+        "precision": 0.8048780487804879,
+        "recall": 0.7333333333333333,
+        "f1": 0.7674418604651163,
+        "normal_alarm_events": 10,
+        "normal_observed_seconds": 409.0,
+        "anomalous_segments_detected": 5,
+        "anomalous_segments_total": 5,
+        "normal_segments_with_alarm": 9,
+        "normal_segments_total": 120,
+        "normal_alarm_events_per_observed_hour": 88.0195599022005
+      }
+    },
+    "soft_vote": {
+      "row": {
+        "rows": 4225,
+        "judged_rows": 3976,
+        "positive_rows": 135,
+        "threshold": 0.2555845530207857,
+        "tp": 96,
+        "fp": 52,
+        "fn": 39,
+        "tn": 4038,
+        "precision": 0.6486486486486487,
+        "recall": 0.7111111111111111,
+        "f1": 0.6784452296819788,
+        "false_positive_rate": 0.012713936430317848,
+        "ap_judged": 0.7769870624018081,
+        "roc_auc_judged": 0.9428740586860554,
+        "brier_judged": 0.01340893694454419
+      },
+      "persistent": {
+        "tp": 94,
+        "fp": 28,
+        "fn": 41,
+        "tn": 4062,
+        "precision": 0.7704918032786885,
+        "recall": 0.6962962962962963,
+        "f1": 0.7315175097276264,
+        "normal_alarm_events": 12,
+        "normal_observed_seconds": 409.0,
+        "anomalous_segments_detected": 4,
+        "anomalous_segments_total": 5,
+        "normal_segments_with_alarm": 11,
+        "normal_segments_total": 120,
+        "normal_alarm_events_per_observed_hour": 105.62347188264059
+      }
+    }
+  },
+  "reference_v11_test_report_only": {
+    "model_id": "IWG-PressGuard-Light-extra_trees_centered",
+    "model_version": "1.1.0",
+    "threshold": 0.3092456035763967,
+    "row_judged_rule": {
+      "rows": 4225,
+      "judged_rows": 3976,
+      "positive_rows": 135,
+      "threshold": 0.3092456035763967,
+      "tp": 72,
+      "fp": 24,
+      "fn": 63,
+      "tn": 4066,
+      "precision": 0.75,
+      "recall": 0.5333333333333333,
+      "f1": 0.6233766233766234,
+      "false_positive_rate": 0.0058679706601467,
+      "ap_judged": 0.7032358783112471,
+      "roc_auc_judged": 0.9424461178914568,
+      "brier_judged": 0.014820413911363834
+    },
+    "persistent": {
+      "tp": 71,
+      "fp": 7,
+      "fn": 64,
+      "tn": 4083,
+      "precision": 0.9102564102564102,
+      "recall": 0.5259259259259259,
+      "f1": 0.6666666666666666,
+      "normal_alarm_events": 3,
+      "normal_observed_seconds": 409.0,
+      "anomalous_segments_detected": 4,
+      "anomalous_segments_total": 5,
+      "normal_segments_with_alarm": 3,
+      "normal_segments_total": 120,
+      "normal_alarm_events_per_observed_hour": 26.405867970660147
+    },
+    "row_v1_rule_all_rows": {
+      "tp": 75,
+      "fp": 29,
+      "fn": 60,
+      "f1": 0.6276150627615062
+    },
+    "note": "Frozen v1.1 predictor (ExtraTrees, trained on 50% only). Re-scored with the v1.2 judged-row rule; report only."
+  },
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-6.18.44-fc-v51-x86_64-with-glibc2.39",
+    "sklearn": "1.8.0",
+    "model_json_bytes": 690481,
+    "json_export_max_abs_error": 1.1102230246251565e-16,
+    "training_and_evaluation_seconds": 27.499514357999942
+  },
+  "limitations": [
+    "Only two source recordings: label = file = date; cross-equipment / cross-date validation impossible.",
+    "No fault onset or maintenance history: early-warning lead time cannot be measured.",
+    "Five anomalous test segments from one 2.8-minute recording; intervals are conditional on these files.",
+    "Units, product mix, speed/load and maintenance records absent.",
+    "Calibrated probabilities reflect the in-dataset anomaly share (2.9%); re-calibrate for field prevalence."
+  ]
+}

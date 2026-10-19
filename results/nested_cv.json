@@ -1,0 +1,186 @@
+{
+  "outer_folds": 7,
+  "folds": [
+    {
+      "outer_fold": 1,
+      "selected": "hist_gb",
+      "anomalous_segments_held_out": [
+        "A0001",
+        "A0002",
+        "A0003"
+      ],
+      "seconds": 18.878641684999934
+    },
+    {
+      "outer_fold": 2,
+      "selected": "hist_gb",
+      "anomalous_segments_held_out": [
+        "A0004",
+        "A0005",
+        "A0006"
+      ],
+      "seconds": 19.64635983000005
+    },
+    {
+      "outer_fold": 3,
+      "selected": "hist_gb",
+      "anomalous_segments_held_out": [
+        "A0007",
+        "A0008",
+        "A0009"
+      ],
+      "seconds": 19.89891850899994
+    },
+    {
+      "outer_fold": 4,
+      "selected": "hist_gb",
+      "anomalous_segments_held_out": [
+        "A0010",
+        "A0011",
+        "A0012"
+      ],
+      "seconds": 20.642003613000043
+    },
+    {
+      "outer_fold": 5,
+      "selected": "hist_gb",
+      "anomalous_segments_held_out": [
+        "A0013",
+        "A0014",
+        "A0015"
+      ],
+      "seconds": 19.858394836000002
+    },
+    {
+      "outer_fold": 6,
+      "selected": "hist_gb",
+      "anomalous_segments_held_out": [
+        "A0016",
+        "A0017",
+        "A0018"
+      ],
+      "seconds": 18.257561831999965
+    },
+    {
+      "outer_fold": 7,
+      "selected": "hist_gb",
+      "anomalous_segments_held_out": [
+        "A0019",
+        "A0020",
+        "A0021"
+      ],
+      "seconds": 18.814538997
+    }
+  ],
+  "selection_counts": {
+    "hist_gb": 7
+  },
+  "procedure": {
+    "outer_f1": {
+      "mean": 0.8135345744334883,
+      "min": 0.66,
+      "max": 0.9036144578313253,
+      "sd": 0.08932554900475113
+    },
+    "outer_ap": {
+      "mean": 0.9249193559808585,
+      "min": 0.8016307058970339,
+      "max": 0.9931837978883856,
+      "sd": 0.07051063581948969
+    },
+    "outer_persistent_f1": {
+      "mean": 0.8309678168077982,
+      "min": 0.7032967032967034,
+      "max": 0.9440993788819876,
+      "sd": 0.08544224205797447
+    },
+    "outer_precision": {
+      "mean": 0.8591795463472804,
+      "min": 0.6470588235294118,
+      "max": 0.9464285714285714,
+      "sd": 0.10335995989444936
+    },
+    "outer_recall": {
+      "mean": 0.7773173025052029,
+      "min": 0.6691176470588235,
+      "max": 0.8869565217391304,
+      "sd": 0.09899884638685948
+    }
+  },
+  "procedure_segments_detected": "20/21",
+  "per_candidate": {
+    "rule_std": {
+      "outer_f1_mean": 0.6047379471035527,
+      "outer_f1_min": 0.46875,
+      "outer_f1_max": 0.7976190476190477,
+      "outer_ap_mean": 0.5212975748097106,
+      "outer_persistent_f1_mean": 0.5802832563618299,
+      "folds_ranked_first_by_outer_f1": 0,
+      "segments_detected": "17/21"
+    },
+    "isolation_forest": {
+      "outer_f1_mean": 0.5178899251268445,
+      "outer_f1_min": 0.4266666666666667,
+      "outer_f1_max": 0.6967741935483871,
+      "outer_ap_mean": 0.543953332873775,
+      "outer_persistent_f1_mean": 0.5355398671657509,
+      "folds_ranked_first_by_outer_f1": 0,
+      "segments_detected": "17/21"
+    },
+    "logistic": {
+      "outer_f1_mean": 0.684161668479158,
+      "outer_f1_min": 0.42857142857142855,
+      "outer_f1_max": 0.8666666666666667,
+      "outer_ap_mean": 0.7445489938962444,
+      "outer_persistent_f1_mean": 0.6849922541281094,
+      "folds_ranked_first_by_outer_f1": 0,
+      "segments_detected": "18/21"
+    },
+    "decision_tree": {
+      "outer_f1_mean": 0.6127630606013691,
+      "outer_f1_min": 0.4411764705882353,
+      "outer_f1_max": 0.7681159420289855,
+      "outer_ap_mean": 0.6573759610028663,
+      "outer_persistent_f1_mean": 0.6195460941158734,
+      "folds_ranked_first_by_outer_f1": 0,
+      "segments_detected": "16/21"
+    },
+    "random_forest": {
+      "outer_f1_mean": 0.7872733911971933,
+      "outer_f1_min": 0.5869565217391305,
+      "outer_f1_max": 0.8944099378881988,
+      "outer_ap_mean": 0.8957059494833838,
+      "outer_persistent_f1_mean": 0.7959604882208398,
+      "folds_ranked_first_by_outer_f1": 1,
+      "segments_detected": "19/21"
+    },
+    "extra_trees": {
+      "outer_f1_mean": 0.7534988473098745,
+      "outer_f1_min": 0.5217391304347826,
+      "outer_f1_max": 0.8765432098765432,
+      "outer_ap_mean": 0.8668885338954073,
+      "outer_persistent_f1_mean": 0.7504904288198443,
+      "folds_ranked_first_by_outer_f1": 0,
+      "segments_detected": "19/21"
+    },
+    "hist_gb": {
+      "outer_f1_mean": 0.8135345744334883,
+      "outer_f1_min": 0.66,
+      "outer_f1_max": 0.9036144578313253,
+      "outer_ap_mean": 0.9249193559808585,
+      "outer_persistent_f1_mean": 0.8309678168077982,
+      "folds_ranked_first_by_outer_f1": 4,
+      "segments_detected": "20/21"
+    },
+    "soft_vote": {
+      "outer_f1_mean": 0.7918637264841494,
+      "outer_f1_min": 0.5365853658536586,
+      "outer_f1_max": 0.926829268292683,
+      "outer_ap_mean": 0.8906678225563319,
+      "outer_persistent_f1_mean": 0.806010192067519,
+      "folds_ranked_first_by_outer_f1": 2,
+      "segments_detected": "19/21"
+    }
+  },
+  "note": "Outer folds cover all 21 anomalous segments once. Estimates conditional on the two source recordings."
+}

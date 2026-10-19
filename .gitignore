@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+
+# PyInstaller work files (build_exe.ps1 writes to %TEMP%, final EXE lives in portable/)
+build/
+dist/
+*.spec
+
+# OS / editors
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/

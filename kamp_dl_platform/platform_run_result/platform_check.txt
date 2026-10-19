@@ -1,0 +1,5 @@
+test decisions/alarms identical to submitted results: True (max score diff 2.220e-16)
+model.json identical to submitted bundle: False
+bundled sha256: 91fd124f6d66510e08bb8a297bcd0ed48805bb5a223ecb443b3e8f33ff9823c9
+rebuilt sha256: 1d18d2ed3eee6cf195e2ce2472d87d5af8dd36e9b9e3c5ec4c2e08106f50b8dd
+python: 3.12.15

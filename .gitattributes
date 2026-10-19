@@ -1,0 +1,6 @@
+# Keep every file byte-identical across platforms.
+# data/SOURCE_HASHES.json and reproduce.py verify SHA-256 of the CSVs,
+# so no line-ending conversion may ever touch them.
+* -text
+*.exe binary
+*.zip binary

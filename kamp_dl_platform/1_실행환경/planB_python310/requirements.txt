@@ -1,0 +1,8 @@
+# 플랫폼 패키지(필수 입력)
+t3qai_client==1.1.2
+# Plan B: Python 3.10 이미지용. 시험 판정·경보는 제출 결과와 완전히 같음을 확인(점수 차 0)
+numpy==2.2.6
+pandas==2.2.3
+scipy==1.15.3
+scikit-learn==1.7.2
+matplotlib==3.10.7

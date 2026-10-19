@@ -1,0 +1,68 @@
+{
+  "status": "ASSUMPTIONS - not measured at any site. Replace with values confirmed at 현장 A after the visit, then re-run roi_scenario.py.",
+  "scenarios": {
+    "conservative": {
+      "mode": "unmanned",
+      "stops_per_year": 1,
+      "loss_per_stop_krw": 6000000,
+      "detect_share": 0.64,
+      "avoid_share": 0.3,
+      "site_standard_checks_per_week": 10,
+      "hours_per_check": 0.5,
+      "wage_per_hour_krw": 30000
+    },
+    "base": {
+      "mode": "standard",
+      "stops_per_year": 2,
+      "loss_per_stop_krw": 12000000,
+      "detect_share": 0.73,
+      "avoid_share": 0.5,
+      "site_standard_checks_per_week": 2,
+      "hours_per_check": 0.5,
+      "wage_per_hour_krw": 30000
+    },
+    "optimistic": {
+      "mode": "screening",
+      "stops_per_year": 3,
+      "loss_per_stop_krw": 18000000,
+      "detect_share": 0.79,
+      "avoid_share": 0.7,
+      "site_standard_checks_per_week": 1,
+      "hours_per_check": 0.5,
+      "wage_per_hour_krw": 30000
+    }
+  },
+  "mode_alarm_ratio_vs_standard": {
+    "unmanned": 0.3,
+    "standard": 1.0,
+    "screening": 2.4
+  },
+  "adoption_cost_krw": {
+    "existing_sensors": 480000,
+    "new_sensor_install": 5000000
+  },
+  "sensitivity": {
+    "loss_per_stop_krw": [
+      3000000,
+      6000000,
+      12000000,
+      24000000
+    ],
+    "detect_share": [
+      0.3,
+      0.64,
+      0.73,
+      0.79
+    ]
+  },
+  "notes": {
+    "stops_per_year": "가정. 현장 A 정비일지로 유압계통 비계획 정지 횟수 확인 필요",
+    "loss_per_stop_krw": "가정. 1,200만 원은 외부 검토 의견의 예시값이며 현장 확인 전. (정지시간 x 시간당 손실 + 수리비)로 교체",
+    "detect_share": "내부 시험 대리값(v1.2 지속경보 재현율): 무인 0.64, 표준 0.73, 선별 0.79. 현장 고장 탐지율 아님",
+    "avoid_share": "가정. 조기 확인으로 비계획 정지를 계획 정비로 전환한 비율",
+    "site_standard_checks_per_week": "가정. 현장 재보정(보급 절차 3단계) 후 표준 모드 기준 주간 경보 확인 건수(보수 10·기준 2·적극 1). 시범 운영의 실제 경보 확인 건수로 교체",
+    "mode_alarm_ratio_vs_standard": "측정값. 시험 구간 정상 경보 진입 건수 비(무인 3 : 표준 10 : 선별 24건). 감도가 높은 모드일수록 확인 부담이 비례해 커지도록 반영",
+    "existing_sensors": "소프트웨어 0원 + 설치·교육 16시간 x 3만 원(가정). 기존 센서·CSV 내보내기·PC 활용 전제",
+    "new_sensor_install": "가정. 진동 2채널·전류 1채널 센서와 수집기 신규 설치 시 견적으로 교체"
+  }
+}
